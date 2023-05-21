@@ -16,6 +16,7 @@
 	product.setName(name);
 	product.setMaker(maker);
 	product.setPrice(price);
+	product.setDiscountPrice((int)(price*0.9));
 	product.setStock(amount);
 	product.setDescription(description);
 	product.setUpdateDate(new Date());

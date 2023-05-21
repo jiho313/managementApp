@@ -11,6 +11,7 @@ public class ProductDao {
 		DaoHelper.update("productDao.updateProduct", product.getName(),
 													 product.getMaker(),
 													 product.getPrice(),
+													 product.getDiscountPrice(),
 													 product.getStock(),
 													 product.getDescription(),
 													 product.getUpdateDate(),

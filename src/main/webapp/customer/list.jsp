@@ -51,7 +51,7 @@
 				<table class="table table-sm">
 					<colgroup>
 						<col width="10%">
-						<col width="20">
+						<col width="20%">
 						<col width="20%">
 						<col width="20%">
 						<col width="15%">
@@ -76,15 +76,28 @@
 							<td><a href="detail.jsp?id=<%=customer.getCustId()%>"class="text-black text-decoration-none"><%=customer.getCustName()%></a></td>
 							<td><%=customer.getCustTel()%></td>
 							<td><%=customer.getCustEmail()%></td>
-							<td><%=customer.getCustDisabled()%></td>
+							<td>
+<%
+		if("No".equals(customer.getCustDisabled())){
+%>
+					<span class="badge text-bg-primary">사용중</span>
+<%		
+		} else if ("Yes".equals(customer.getCustDisabled())){
+%>
+					<span class="badge text-bg-secondary">탈퇴</span>
+<%
+		}
+%>
+							</td>
+							
 							<%
-							if ("Yes".equals(customer.getCustDisabled())) {
+							if ("No".equals(customer.getCustDisabled())) {
 							%>
-							<td><a href="enable.jsp?id=<%=customer.getCustId()%>"class="btn btn-primary  btn-xs">복구처리</a></td>
+							<td><a href="disable.jsp?id=<%=customer.getCustId()%>"class="btn btn-outline-danger btn-xs">탈퇴처리</a></td>
 							<%
 							} else {
 							%>
-							<td><a href="disable.jsp?id=<%=customer.getCustId()%>"class="btn btn-danger btn-xs">탈퇴처리</a></td>
+							<td><a href="enable.jsp?id=<%=customer.getCustId()%>"class="btn btn-outline-success  btn-xs">복구처리</a></td>
 							<%
 							}
 							%>

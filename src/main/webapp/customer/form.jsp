@@ -1,4 +1,9 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%
+	// insert.jsp에서 아이디 중복체크, 이메일이 중복된 경우 form.jsp?err=id(email) URL을 재요청하게 한다.
+	String err = request.getParameter("err");
+	
+%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -33,7 +38,23 @@
 		<div class="row mb-3">
 			<div class="col-12">
 				<p>신규 고객정보를 입력하세요.</p>
-
+<%
+	if("id".equals(err)){
+%>					
+				<div class="alert alert-danger">
+					<strong>회원가입 실패</strong> 이미  사용중인 아이디로 가입할 수 없습니다.
+				</div>	
+<%
+	} else if ("email".equals(err)) {
+%>
+				<div class="alert alert-danger">
+					<strong>회원가입 실패</strong> 이미  사용중인 이메일로 가입할 수 없습니다.
+				</div>	
+<%
+	}
+%>
+				
+					
 				<form class="border bg-light p-3" method="post" action="insert.jsp">
 					<div class="form-group mb-2">
 						<label class="form-label">아이디</label> <input type="text"

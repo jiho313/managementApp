@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 import util.DaoHelper;
+import vo.Category;
 import vo.Product;
 
 public class ProductDao {
@@ -14,7 +15,8 @@ public class ProductDao {
 													 product.getDiscountPrice(),
 													 product.getStock(),
 													 product.getDescription(),
-													 product.getUpdateDate(),
+													 product.getOnSell(),
+													 product.getCategory().getNo(),
 													 product.getNo());
 	}
 	
@@ -37,13 +39,18 @@ public class ProductDao {
 			product.setNo(rs.getInt("product_no"));
 			product.setName(rs.getString("product_name"));
 			product.setMaker(rs.getString("product_maker"));
-			product.setDiscountPrice(rs.getInt("product_discount_price"));
+			product.setDescription(rs.getString("product_description"));
 			product.setPrice(rs.getInt("product_price"));
+			product.setDiscountPrice(rs.getInt("product_discount_price"));
 			product.setOnSell(rs.getString("product_on_sell"));
 			product.setStock(rs.getInt("product_stock"));
 			product.setUpdateDate(rs.getDate("product_update_date"));
 			product.setCreateDate(rs.getDate("product_create_date"));
-			product.setDescription(rs.getString("product_description"));
+			
+			Category cat= new Category();
+			cat.setNo(rs.getInt("cat_no"));
+			cat.setName(rs.getString("cat_name"));
+			product.setCategory(cat);
 			
 			return product;
 		}, productNo);
@@ -59,7 +66,8 @@ public class ProductDao {
 													 product.getDescription(),
 													 product.getPrice(),
 													 product.getDiscountPrice(),
-													 product.getStock());
+													 product.getStock(),
+													 product.getCategory().getNo());
 		
 	}
 	

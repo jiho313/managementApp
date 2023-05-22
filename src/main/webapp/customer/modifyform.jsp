@@ -46,16 +46,16 @@
 							class="form-control" name="password" />
 					</div>
 					<div class="form-group mb-2">
-						<label class="form-label">이름</label> <input type="text"
-							class="form-control" name="name" />
-					</div>
-					<div class="form-group mb-2">
 						<label class="form-label">전화번호</label> <input type="text"
 							class="form-control" name="tel" />
 					</div>
 					<div class="form-group mb-2">
 						<label class="form-label">이메일</label> <input type="text"
 							class="form-control" name="email" />
+					<div class="form-group mb-2">
+						<label class="form-label">적립포인트</label> <input type="text"
+							class="form-control" name="point" />
+					</div>
 					</div>
 					<div class="text-end">
 						<button type="reset" class="btn btn-secondary btn-sm">취소</button>

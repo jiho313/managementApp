@@ -52,7 +52,9 @@
 				<tbody>
 					<tr>
 						<th>상품이름</th>
-						<td colspan="3"><%=product.getName() %></td>
+						<td><%=product.getName() %></td>
+						<th>카테고리</th>
+						<td><%=product.getCategory().getName()%></td>
 					</tr>
 					<tr>
 						<th>상품번호</th>

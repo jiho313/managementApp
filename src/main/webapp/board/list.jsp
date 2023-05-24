@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="dao.BoardDao"%>
 <%@page import="vo.Board"%>
 <%@page import="java.util.List"%>
@@ -5,6 +6,7 @@
 <%
 	BoardDao boardDao = new BoardDao();
 	List<Board> boardList = boardDao.getBoards();
+	String loginId = (String) session.getAttribute("loginId");
 %>
 <!doctype html>
 <html lang="ko">
@@ -89,6 +91,7 @@
 			<div class="text-end">
 				<a href="form.jsp" class="btn btn-primary btn-sm">새 게시글 등록</a>
 			</div>
+
 		</div>
 	</div>
 </div>

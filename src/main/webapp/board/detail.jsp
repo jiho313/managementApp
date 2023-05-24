@@ -1,6 +1,14 @@
+<%@page import="vo.Board"%>
+<%@page import="dao.BoardDao"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
 	int no = Integer.parseInt(request.getParameter("no"));
+	String loginId = (String) session.getAttribute("loginId");
+
+	BoardDao boardDao = new BoardDao();
+	Board boardDetail = boardDao.getBoardDetailByNo(no);
+	Board board = boardDao.getBoardByNo(no);
+	String err = request.getParameter("err");
 %>
 <!doctype html>
 <html lang="ko">
@@ -17,7 +25,7 @@
 </head>
 <body>
 <jsp:include page="../nav.jsp">
-	<jsp:param name="menu" value="게시글"/>
+	<jsp:param name="menu" value="게시판"/>
 </jsp:include>
 <div class="container my-3">
 	<div class="row mb-3">
@@ -28,6 +36,21 @@
 	<div class="row mb-3">
 		<div class="col-12">
 			<p>게시글 상세정보를 확인하세요.</p>
+<%
+	if ("id".equals(err)){
+%>
+		<div class="alert alert-danger">
+			<strong>게시물 삭제 실패</strong> 자신이 등록한 게시물만 삭제할 수 있습니다.
+		</div>
+<% 		
+	} else if ("id2".equals(err)){
+%>	
+		<div class="alert alert-danger">
+			<strong>게시물 수정 실패</strong> 자신이 등록한 게시물만 수정할 수 있습니다.
+		</div>
+<%
+	}
+%>
 			<table class="table table-bordered">
 				<colgroup>
 					<col width="10%">
@@ -38,27 +61,38 @@
 				<tbody>
 					<tr>
 						<th class="table-dark">제목</th>
-						<td>게시글 연습</td>
+						<td><%=boardDetail.getTitle() %></td>
 						<th class="table-dark">작성자</th>
-						<td>홍길동</td>
+						<td><%=boardDetail.getCustomer().getCustName() %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">조회수</th>
-						<td>100</td>
+						<td><%=boardDetail.getReadCnt() %></td>
 						<th class="table-dark">댓글갯수</th>
-						<td>1</td>
+						<td><%=boardDetail.getCommentCnt() %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">등록일</th>
-						<td>2023-05-23</td>
+						<td><%=boardDetail.getCreateDate() %></td>
 						<th class="table-dark">최종수정일자</th>
-						<td>2023-05-20</td>
+						<td><%=boardDetail.getUpdateDate() %></td>
 					</tr>
 				</tbody>
-			</table>
-			<div class="text-end">
-				<a href="delete.jsp?no=글번호" class="btn btn-danger btn-sm">삭제</a>
-				<a href="modifyform.jsp?no=글번호" class="btn btn-warning btn-sm">수정</a>
+				</table>
+				<div class="mt-3">
+					<p><%=boardDetail.getContent()%></p>
+				</div>
+				
+				<div class="text-end">
+<%
+	if (board.getCustomer().getCustId().equals(loginId)) {
+		// 상품에 맞는 detail.jsp를 재요청하는 Url을 응답으로 보내기 위해 상품 번호를 요청메세지에 포함한다.
+%>
+				<a href="modifyform.jsp?no=<%=no %>" class="btn btn-warning btn-sm">수정</a>
+				<a href="delete.jsp?no=<%=no %>" class="btn btn-danger btn-sm">삭제</a>
+<%
+	}
+%> 
 				<a href="list.jsp" class="btn btn-primary btn-sm">목록</a>
 			</div>
 		</div>

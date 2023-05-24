@@ -7,7 +7,7 @@ import vo.Board;
 import vo.Customer;
 
 public class BoardDao {
-	//
+	//왜안돼
 	public Board getBoardDetail(int boardNo) {
 		return DaoHelper.selectOne("boardDao.getBoardDetail", rs -> {
 			Board board = new Board();

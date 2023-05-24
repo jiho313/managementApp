@@ -16,6 +16,10 @@ public class Customer {
 	
 	public Customer() {}
 
+	public Customer(String id) {
+		this.custId = id;
+	}
+	
 	public String getCustId() {
 		return custId;
 	}

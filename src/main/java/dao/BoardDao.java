@@ -62,6 +62,7 @@ public class BoardDao {
 			board.setTitle(rs.getString("board_title"));
 			board.setCommentCnt(rs.getInt("board_comment_cnt"));
 			board.setCreateDate(rs.getDate("board_create_date"));
+			board.setDeleted(rs.getString("board_deleted"));
 			
 			Customer customer = new Customer();
 			customer.setCustName(rs.getString("cust_name"));

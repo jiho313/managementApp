@@ -55,6 +55,7 @@
 				<tbody>
 <%
 	for (Board board : boardList){
+		if ("N".equals(board.getDeleted())){
 %>
 					<tr>
 						<td><%=board.getNo() %></td>
@@ -64,6 +65,7 @@
 						<td><%=board.getCreateDate() %></td>
 					</tr>
 <%
+		}
 	}
 %>
 				</tbody>

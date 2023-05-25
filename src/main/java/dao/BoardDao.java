@@ -7,11 +7,19 @@ import vo.Board;
 import vo.Customer;
 
 public class BoardDao {
-
+	
+	public int getCommentCntByBoardNo(int boardNo) {
+		return DaoHelper.selectOne("boardDao.getCommentCntByBoardNo", rs -> {
+			return rs.getInt("cnt");
+		},boardNo);
+	}
+	
 	public void updateBoard(Board board) {
 		DaoHelper.update("boardDao.updateBoard", board.getTitle(),
 												 board.getContent(),
+												 board.getCommentCnt(),
 												 board.getDeleted(),
+												 board.getReadCnt(),
 												 board.getNo());
 	}
 	
@@ -55,11 +63,14 @@ public class BoardDao {
 		}, boardNo);
 	}
 	
-	public List<Board> getBoards() {
-		return DaoHelper.selectList("boardDao.getBoards", rs -> {
+	public List<Board> getBoards(String loginId, int begin, int end) {
+		String query = "manager".equals(loginId) ? "boardDao.getAllBoards" : "boardDao.getBoards";
+		
+		return DaoHelper.selectList(query, rs -> {
 			Board board = new Board();
 			board.setNo(rs.getInt("board_no"));
 			board.setTitle(rs.getString("board_title"));
+			board.setReadCnt(rs.getInt("board_read_cnt"));
 			board.setCommentCnt(rs.getInt("board_comment_cnt"));
 			board.setCreateDate(rs.getDate("board_create_date"));
 			board.setDeleted(rs.getString("board_deleted"));
@@ -70,7 +81,7 @@ public class BoardDao {
 			board.setCustomer(customer);
 			
 			return board;
-		});
+		}, begin, end);
 	}
 	
 	public void insertBoard(Board board) {
@@ -79,6 +90,10 @@ public class BoardDao {
 												 board.getCustomer().getCustId());
 	}
 	
-
+	public int getTotalRows () {
+		return DaoHelper.selectOne("boardDao.getTotalRows", rs -> {
+			return rs.getInt("cnt");
+		});
+	}
 
 }

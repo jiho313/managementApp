@@ -13,12 +13,13 @@
 		return;
 	}
 	
+	BoardDao boardDao = new BoardDao();
 	
 	Board board = new Board();
+
 	board.setTitle(title);
 	board.setContent(content);
 	board.setCustomer(new Customer(loginId));
-	BoardDao boardDao = new BoardDao();
 	
 	boardDao.insertBoard(board);
 	

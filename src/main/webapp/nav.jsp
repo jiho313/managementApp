@@ -1,3 +1,5 @@
+<%@page import="dao.CustomerDao"%>
+<%@page import="vo.Customer"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
 	// 각 jsp가 nav.jsp를 incluse할 때 파라미터값을 전달한 menu를 조회한다.
@@ -7,6 +9,9 @@
 	// 세션에서 로그인된 사용자아이디를 조회
 	String loginId = (String) session.getAttribute("loginId");
 	System.out.println("로그인 아이디: " + loginId);
+	
+	CustomerDao customerDao = new CustomerDao();
+	
 %>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
    <div class="container">
@@ -18,12 +23,16 @@
       </ul>
       <ul class="navbar-nav">
 <%
-	if (loginId != null) {
+    if (loginId != null) {
+    	Customer customer = customerDao.getCustomerById(loginId);
 %>
+         <li class="nav-item"><a class="nav-link" href="/app3/customer/detail.jsp?id=<%=loginId%>">[<%=customer.getCustName() %>]님 환영합니다.</a></li>
          <li class="nav-item"><a class="nav-link" href="/app3/logout.jsp">로그아웃</a></li>
 <%
-	} else {
+    } else {
 %>
+
+
          <li class="nav-item"><a class="nav-link <%="로그인".equals(menu) ? "active" : "" %>" href="/app3/loginform.jsp">로그인</a></li>
          <li class="nav-item"><a class="nav-link <%="회원가입".equals(menu) ? "active" : "" %>" href="/app3/customer/form.jsp">회원가입</a></li>
 <%	

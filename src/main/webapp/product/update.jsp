@@ -13,6 +13,7 @@
 
 	ProductDao dao = new ProductDao();
 	Product product = dao.getProductByNo(no);
+	
 	product.setName(name);
 	product.setMaker(maker);
 	product.setPrice(price);

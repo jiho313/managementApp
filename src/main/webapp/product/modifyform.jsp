@@ -1,11 +1,34 @@
+<%@page import="vo.Product"%>
+<%@page import="dao.ProductDao"%>
+<%@page import="vo.Category"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.CategoryDao"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
+	// 요청 URL - http://localhost/app3/product/modifyform.jsp?no= 
+
+	// 요청파라미터 정보를 조회
 	int no = Integer.parseInt(request.getParameter("no"));
+
+	// 요청파라미터로 전달받은 상품번호에 해당하는 상품정보 조회
+	ProductDao productDao = new ProductDao();
+	Product product = productDao.getProductByNo(no);
+	int categoryNo = product.getCategory().getNo();
+	
+	// 모든 카테고리 목록정보 조회하기
+	CategoryDao categoryDao = new CategoryDao();
+	List<Category> categories = categoryDao.getCategories();
 %>
 <!doctype html>
 <html lang="ko">
 <head>
 <title></title>
+<style>
+    .selected-category {
+        background-color: lightgray; /* 원하는 색상으로 변경하세요 */
+    }
+</style>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,60 +36,61 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<div class="container">
-			<ul class="navbar-nav me-auto">
-				<li class="nav-item"><a class="nav-link" href="/app3/home.jsp">홈</a></li>
-				<li class="nav-item"><a class="nav-link active" href="/app3/product/list.jsp">상품관리</a></li>
-				<li class="nav-item"><a class="nav-link " href="/app3/customer/list.jsp">고객 관리</a></li>
-				<li class="nav-item"><a class="nav-link disabled" href="">게시판 관리</a></li>
-			</ul>
-			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link disabled" href="">로그인</a></li>
-				<li class="nav-item"><a class="nav-link" href="/app3/customer/form.jsp">회원가입</a></li>
-			</ul>
-		</div>
-	</nav>
-	<div class="container my-3">
-		<div class="row mb-3">
-			<div class="col-12">
-				<h1 class="border bg-light fs-4 p-2">상품 정보 수정</h1>
-			</div>
-		</div>
-		<div class="row mb-3">
-			<div class="col-12">
-				<p>변경할 고객 정보를 입력하세요.</p>
-				<form class="border bg-light p-3" method="post" action="update.jsp">
-					<div class="form-group mb-2">
-						<label class="form-label">상품번호</label> <input type="text"class="form-control bg-light" name="no" value="<%=no%>" readonly="readonly" />
-					</div>
-					<div class="form-group mb-2">
-						<label class="form-label">상품이름</label> <input type="text"
-							class="form-control" name="name" />
-					</div>
-					<div class="form-group mb-2">
-						<label class="form-label">제조회사</label> <input type="text"
-							class="form-control" name="maker" />
-					</div>
-					<div class="form-group mb-2">
-						<label class="form-label">가격</label> <input type="text"
-							class="form-control" name="price" />
-					</div>				
-					<div class="form-group mb-2">
-						<label class="form-label">재고수량</label> <input type="text"
-							class="form-control" name="amount" />
-					</div>
-					<div class="form-group mb-2">
-					<label class="form-label">상품 설명</label>
-					<textarea class="form-control" rows="5" name="description"></textarea>
-				</div>
-					<div class="text-end">
-						<button type="reset" class="btn btn-secondary btn-sm">취소</button>
-						<button type="submit" class="btn btn-primary btn-sm">수정</button>
-					</div>
-				</form>
-			</div>
+<jsp:include page="../nav.jsp">
+	<jsp:param name="menu" value="상품"/>
+</jsp:include>
+<div class="container my-3">
+	<div class="row mb-3">
+		<div class="col-12">
+			<h1 class="border bg-light fs-4 p-2">상품정보 수정폼</h1>
 		</div>
 	</div>
+	<div class="row mb-3">
+		<div class="col-12">
+			<p>상품정보를 확인하고, 수정하세요.</p>
+			
+			<form class="border bg-light p-3" method="post" action="modify.jsp">
+				<input type="hidden" name="no" value="<%=no %>">
+				<div class="form-group mb-2">
+					<label class="form-label">카테고리</label>
+					<select class="form-select" name="catNo">
+<%
+	for(Category cat : categories){
+
+%>
+<option value="<%=cat.getNo() %>"<%=cat.getNo() == categoryNo ? "selected class='selected-category'" : "" %>><%=cat.getName() %></option>
+<%
+	}
+%>
+					</select>
+				</div>
+				<div class="form-group mb-2">
+					<label class="form-label">상품이름</label>
+					<input type="text" class="form-control" name="name" value="<%=product.getName() %>" />
+				</div>
+				<div class="form-group mb-2">
+					<label class="form-label">제조회사</label>
+					<input type="text" class="form-control" name="maker" value="<%=product.getMaker() %>"  />
+				</div>
+				<div class="form-group mb-2">
+					<label class="form-label">상품가격</label>
+					<input type="text" class="form-control" name="price" value="<%=product.getPrice() %>" />
+				</div>
+				<div class="form-group mb-2">
+					<label class="form-label">할인 가격</label>
+					<input type="text" class="form-control" name="discountPrice" value="<%=product.getDiscountPrice() %>" />
+				</div>
+				<div class="form-group mb-2">
+					<label class="form-label">상품 설명</label>
+					<textarea class="form-control" rows="5" name="description" ><%=product.getDescription() %></textarea>
+				</div>
+				<div class="text-end">
+					<button type="reset" class="btn btn-secondary btn-sm">취소</button>
+					<button type="submit" class="btn btn-primary btn-sm">수정</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 </body>
 </html>

@@ -7,18 +7,30 @@
 	Customer customer = new Customer();
 	CustomerDao dao = new CustomerDao();
 
-	String custId = request.getParameter("id");
-	String custPassword= request.getParameter("password");
-	String custName = request.getParameter("name");
-	String custTel = request.getParameter("tel");
-	String custEmail = request.getParameter("email");
+	String id = request.getParameter("id");
+	String password= request.getParameter("password");
+	String name = request.getParameter("name");
+	String tel = request.getParameter("tel");
+	String email = request.getParameter("email");
 	
 	
-	customer.setCustId(custId);
-	customer.setCustPassword(custPassword);
-	customer.setCustName(custName);
-	customer.setCustTel(custTel);
-	customer.setCustEmail(custEmail);
+	customer.setCustId(id);
+	customer.setCustPassword(password);
+	customer.setCustName(name);
+	customer.setCustTel(tel);
+	customer.setCustEmail(email);
+	
+	// 아이디 중복체크
+	if (dao.getCustomerById(id) != null){
+		response.sendRedirect("form.jsp?err=id");
+		return;
+	}
+	
+	// 이메일 중복체크
+	if (dao.getCustomerByEmail(email) != null){
+		response.sendRedirect("form.jsp?err=email");
+		return;
+	}
 	
 	dao.insertCustomer(customer);
 	

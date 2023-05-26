@@ -13,20 +13,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<div class="container">
-			<ul class="navbar-nav me-auto">
-				<li class="nav-item"><a class="nav-link" href="/app3/home.jsp">홈</a></li>
-				<li class="nav-item"><a class="nav-link" href="/app3/product/list.jsp">상품관리</a></li>
-				<li class="nav-item"><a class="nav-link active" href="/app3/customer/list.jsp">고객 관리</a></li>
-				<li class="nav-item"><a class="nav-link disabled" href="">게시판 관리</a></li>
-			</ul>
-			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link disabled" href="">로그인</a></li>
-				<li class="nav-item"><a class="nav-link" href="/app3/customer/form.jsp">회원가입</a></li>
-			</ul>
-		</div>
-	</nav>
+<jsp:include page="../nav.jsp">
+	<jsp:param name="menu" value="고객"/>
+</jsp:include>
 	<div class="container my-3">
 		<div class="row mb-3">
 			<div class="col-12">
@@ -46,16 +35,16 @@
 							class="form-control" name="password" />
 					</div>
 					<div class="form-group mb-2">
-						<label class="form-label">이름</label> <input type="text"
-							class="form-control" name="name" />
-					</div>
-					<div class="form-group mb-2">
 						<label class="form-label">전화번호</label> <input type="text"
 							class="form-control" name="tel" />
 					</div>
 					<div class="form-group mb-2">
 						<label class="form-label">이메일</label> <input type="text"
 							class="form-control" name="email" />
+					<div class="form-group mb-2">
+						<label class="form-label">적립포인트</label> <input type="text"
+							class="form-control" name="point" />
+					</div>
 					</div>
 					<div class="text-end">
 						<button type="reset" class="btn btn-secondary btn-sm">취소</button>

@@ -2,7 +2,16 @@
 <%@page import="dao.CustomerDao"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
+	// 1. 요청 URL - http://localhost/app3/customer/detail.jsp?id=?
 	String custId = request.getParameter("id");
+
+	// 2. 요청 URL - http://localhost/app3/customer/detail.jsp?id=?&err=fail
+	// 1번의 URL 요청이 온다면 err은 null일 것이다. 그렇기 때문에 이퀄 비교를 할 때는 문자열 리터럴을
+	// 왼쪽에 오도록(("fail".equals(err))하여 비교하는 것이 바람직하다. 문자열 객체의 equals메서드는 매개 변수에 null값이 입력될 수 있고,
+	// null값이 입력된다면 false를 반환한다. 만약(err.equals("fail")) 이런 코드를 사용했을 떄 err이 null이라면,
+	// null.equals("fail")이라는 코드는 실행할 수 없기에 NullPointException예외가 발생한다.
+	String err = request.getParameter("err");
+
 	CustomerDao dao = new CustomerDao();
 	Customer customer = dao.getCustomerById(custId);
 %>
@@ -20,20 +29,9 @@
 </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-   <div class="container">
-      <ul class="navbar-nav me-auto">
-         <li class="nav-item"><a class="nav-link" href="/app3/home.jsp">홈</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/product/list.jsp">상품관리</a></li>
-         <li class="nav-item"><a class="nav-link active" href="/app3/customer/list.jsp">고객 관리</a></li>
-         <li class="nav-item"><a class="nav-link disabled" href="">게시판 관리</a></li>
-      </ul>
-      <ul class="navbar-nav">
-         <li class="nav-item"><a class="nav-link disabled" href="">로그인</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/customer/form.jsp">회원가입</a></li>
-      </ul>
-   </div>
-</nav>
+<jsp:include page="../nav.jsp">
+	<jsp:param name="menu" value="고객"/>
+</jsp:include>
 	<div class="container my-3">
 		<div class="row mb-3">
 			<div class="col-12">
@@ -43,7 +41,16 @@
 		<div class="row mb-3">
 			<div class="col-12">
 				<p>고객의 상세정보를 확인하세요.</p>
-
+				<%
+					// 사용중인 고객을 삭제하려 했을 때 출력되게 한다.
+					if("fail".equals(err)){
+				%>
+				<div class="alert alert-danger">
+					<strong>삭제 실패</strong> 사용중인 고객은 삭제할 수 없습니다.
+				</div>	
+				<%
+					}
+				%>
 				<table class="table table-bordered">
 					<colgroup>
 						<col width="10%">
@@ -68,7 +75,18 @@
 							<th class="table-dark">적립포인트</th>
 							<td><%=customer.getCustPoint()%></td>
 							<th class="table-dark">탈퇴여부</th>
-							<td><%=customer.getCustDisabled()%></td>
+							<td><%
+		if("No".equals(customer.getCustDisabled())){
+%>
+					<span class="badge text-bg-primary">사용중</span>
+<%		
+		} else if ("Yes".equals(customer.getCustDisabled())){
+%>
+					<span class="badge text-bg-secondary">탈퇴</span>
+<%
+		}
+%>
+							</td>
 						</tr>
 						<tr>
 							<th class="table-dark">가입일자</th>
@@ -79,10 +97,15 @@
 					</tbody>
 				</table>
 				<div class="text-end">
-					<a href="delete.jsp?id=<%=customer.getCustId()%>"
-						class="btn btn-danger btn-sm">삭제</a> <a
-						href="modifyform.jsp?id=<%=customer.getCustId()%>"
-						class="btn btn-warning btn-sm">수정</a> <a href="list.jsp"
+				<%
+				// 탈퇴처리가 된 고객일 때 삭제 버튼이 나오도록한다.
+					if("Yes".equals(customer.getCustDisabled())){
+				%>
+					<a href="delete.jsp?id=<%=customer.getCustId()%>"class="btn btn-danger btn-sm">삭제</a> 
+				<%
+				}
+				%>
+						<a href="modifyform.jsp?id=<%=customer.getCustId()%>"class="btn btn-warning btn-sm">수정</a> <a href="list.jsp"
 						class="btn btn-primary btn-sm">목록</a>
 				</div>
 			</div>

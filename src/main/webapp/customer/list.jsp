@@ -20,24 +20,9 @@
 </style>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<div class="container">
-			<ul class="navbar-nav me-auto">
-				<li class="nav-item"><a class="nav-link" href="/app3/home.jsp">홈</a></li>
-				<li class="nav-item"><a class="nav-link"
-					href="/app3/product/list.jsp">상품관리</a></li>
-				<li class="nav-item"><a class="nav-link active"
-					href="/app3/customer/list.jsp">고객 관리</a></li>
-				<li class="nav-item"><a class="nav-link disabled" href="">게시판
-						관리</a></li>
-			</ul>
-			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link disabled" href="">로그인</a></li>
-				<li class="nav-item"><a class="nav-link"
-					href="/app3/customer/form.jsp">회원가입</a></li>
-			</ul>
-		</div>
-	</nav>
+<jsp:include page="../nav.jsp">
+	<jsp:param name="menu" value="고객"/>
+</jsp:include>
 	<div class="container my-3">
 		<div class="row mb-3">
 			<div class="col-12">
@@ -51,7 +36,7 @@
 				<table class="table table-sm">
 					<colgroup>
 						<col width="10%">
-						<col width="20">
+						<col width="20%">
 						<col width="20%">
 						<col width="20%">
 						<col width="15%">
@@ -76,15 +61,28 @@
 							<td><a href="detail.jsp?id=<%=customer.getCustId()%>"class="text-black text-decoration-none"><%=customer.getCustName()%></a></td>
 							<td><%=customer.getCustTel()%></td>
 							<td><%=customer.getCustEmail()%></td>
-							<td><%=customer.getCustDisabled()%></td>
+							<td>
+<%
+		if("No".equals(customer.getCustDisabled())){
+%>
+					<span class="badge text-bg-primary">사용중</span>
+<%		
+		} else if ("Yes".equals(customer.getCustDisabled())){
+%>
+					<span class="badge text-bg-secondary">탈퇴</span>
+<%
+		}
+%>
+							</td>
+							
 							<%
-							if ("Yes".equals(customer.getCustDisabled())) {
+							if ("No".equals(customer.getCustDisabled())) {
 							%>
-							<td><a href="enable.jsp?id=<%=customer.getCustId()%>"class="btn btn-primary  btn-xs">복구처리</a></td>
+							<td><a href="disable.jsp?id=<%=customer.getCustId()%>"class="btn btn-outline-danger btn-xs">탈퇴처리</a></td>
 							<%
 							} else {
 							%>
-							<td><a href="disable.jsp?id=<%=customer.getCustId()%>"class="btn btn-danger btn-xs">탈퇴처리</a></td>
+							<td><a href="enable.jsp?id=<%=customer.getCustId()%>"class="btn btn-outline-success  btn-xs">복구처리</a></td>
 							<%
 							}
 							%>

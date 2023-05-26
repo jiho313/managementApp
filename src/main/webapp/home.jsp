@@ -10,22 +10,25 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-   <div class="container">
-      <ul class="navbar-nav me-auto">
-         <li class="nav-item"><a class="nav-link active" href="/app3/home.jsp">홈</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/product/list.jsp">상품관리</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/customer/list.jsp">고객 관리</a></li>
-         <li class="nav-item"><a class="nav-link disabled" href="">게시판 관리</a></li>
-      </ul>
-      <ul class="navbar-nav">
-         <li class="nav-item"><a class="nav-link disabled" href="">로그인</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/customer/form.jsp">회원가입</a></li>
-      </ul>
-   </div>
-</nav>
-<div class="container">
+<jsp:include page="nav.jsp">
+	<jsp:param name="menu" value="홈"/>
+</jsp:include>
+<div class="row">
+	<div><p> test </p></div>
+	<div class="row"><p> test </p></div>
+</div>
+<div class="container mt-3">
 	<h1>쇼핑몰 관리자 시스템</h1>
+	
+	<div class="row">
+		<div class="col-2">1</div>
+		<div class="col-2">2</div>
+		<div class="col-2">3</div>
+		<div class="col-2">4</div>
+		<div class="col-2">5</div>
+		<div class="col-2">6</div>
+		<div class="col-2">7</div>
+	</div>
 </div>
 </body>
 </html>

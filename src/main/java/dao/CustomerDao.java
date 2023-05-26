@@ -23,19 +23,18 @@ public class CustomerDao {
 	 * @param customer 변경된 필드의 값이 담긴 Customer객체
 	 */
 	public void UpdateCustomer(Customer customer) {
-		DaoHelper.update("customerDao.UpdateCustomer", customer.getCustDisabled(),
-													   customer.getCustPassword(),
-													   customer.getCustName(),
+		DaoHelper.update("customerDao.UpdateCustomer", customer.getCustPassword(),
 													   customer.getCustTel(),
 													   customer.getCustEmail(),
-													   customer.getCustUpdateDate(),
+													   customer.getCustDisabled(),
+													   customer.getCustPoint(),
 													   customer.getCustId());
 	}
 	
 	/**
-	 * 고객의 상세 정보를 출력한다.
+	 * 고객의 아이디로 고객의 상세 정보를 출력한다.
 	 * @param custId 상제 정보를 조회할 고객 아이디
-	 * @return 고객의 상세 정보를 담은 List<Customer>객체
+	 * @return 고객의 상세 정보를 담은 Customer객체
 	 */
 	public Customer getCustomerById(String custId) {
 		return DaoHelper.selectOne("customerDao.getCustomerById", rs -> {
@@ -53,6 +52,30 @@ public class CustomerDao {
 			
 			return customer;
 		}, custId);
+	}
+	
+	/**
+	 * 고객의 이메일로 고객의 상세 정보를 출력한다.
+	 * @param email 상세 정보를 조회할 고객 이메일
+	 * @return 고객의 상세 정보를 담은 Customer객체
+	 */
+	public Customer getCustomerByEmail(String email) {
+		return DaoHelper.selectOne("customerDao.getCustomerByEmail", rs ->{
+			Customer customer = new Customer();
+			
+			customer.setCustId(rs.getString("cust_id"));
+			customer.setCustPassword(rs.getString("cust_password"));
+			customer.setCustName(rs.getString("cust_name"));
+			customer.setCustTel(rs.getString("cust_tel"));
+			customer.setCustEmail(rs.getString("cust_email"));
+			customer.setCustPoint(rs.getInt("cust_point"));
+			customer.setCustDisabled(rs.getString("cust_disabled"));
+			customer.setCustCreateDate(rs.getDate("cust_create_date"));
+			customer.setCustUpdateDate(rs.getDate("cust_update_date"));
+			
+			return customer;
+		}, email);
+				
 	}
 	
 	/**

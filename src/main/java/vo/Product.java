@@ -15,8 +15,15 @@ public class Product {
 	private Date updateDate;
 	private Date createDate;
 	
+	// 객체 안에 객체가 들어있는 형태
+	private Category category;
+	
 	public Product() {}
 
+	public Product(int no) {
+		this.no = no;
+	}
+	
 	public int getNo() {
 		return no;
 	}
@@ -96,6 +103,14 @@ public class Product {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	 
 	
 }

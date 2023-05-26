@@ -15,7 +15,7 @@
 	Board board = boardDao.getBoardByNo(boardNo);
 	
 	if(loginId.equals(board.getCustomer().getCustId()) || "manager".equals(loginId)) {
-		board.setDeleted("Y");
+		board.setDeleted("N");
 		
 		boardDao.updateBoard(board);
 		

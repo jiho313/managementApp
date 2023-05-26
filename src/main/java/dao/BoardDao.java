@@ -32,29 +32,12 @@ public class BoardDao {
 			board.setCommentCnt(rs.getInt("board_comment_cnt"));
 			board.setReadCnt(rs.getInt("board_read_cnt"));
 			board.setDeleted(rs.getString("board_deleted"));
-			board.setUpdateDate(rs.getDate("board_update_date"));
-			board.setCreateDate(rs.getDate("board_create_date"));
-			board.setCustomer(new Customer(rs.getString("cust_id")));
-			
-			return board;
-		}, boardNo);
-	}
-	
-	public void deleteBoard(int boardNo) {
-		DaoHelper.update("boardDao.deleteBoard", boardNo);
-	}
-	public Board getBoardDetailByNo(int boardNo) {
-		return DaoHelper.selectOne("boardDao.getBoardDetailByNo", rs -> {
-			Board board = new Board();
-			board.setNo(rs.getInt("board_no"));
-			board.setTitle(rs.getString("board_title"));
-			board.setContent(rs.getString("board_content"));
-			board.setReadCnt(rs.getInt("board_read_cnt"));
-			board.setCommentCnt(rs.getInt("board_comment_cnt"));
 			board.setCreateDate(rs.getDate("board_create_date"));
 			board.setUpdateDate(rs.getDate("board_update_date"));
-			
+			board.setFilename(rs.getString("board_filename"));
+
 			Customer customer = new Customer();
+			customer.setCustId(rs.getString("cust_id"));
 			customer.setCustName(rs.getString("cust_name"));
 			
 			board.setCustomer(customer);
@@ -63,8 +46,12 @@ public class BoardDao {
 		}, boardNo);
 	}
 	
+	public void deleteBoard(int boardNo) {
+		DaoHelper.update("boardDao.deleteBoard", boardNo);
+	}
+	
 	public List<Board> getBoards(String loginId, int begin, int end) {
-		String query = "manager".equals(loginId) ? "boardDao.getAllBoards" : "boardDao.getBoards";
+		String query = "manager".equals(loginId) ? "boardDao.getAllBoards" : "boardDao.getActiveBoards";
 		
 		return DaoHelper.selectList(query, rs -> {
 			Board board = new Board();
@@ -75,7 +62,9 @@ public class BoardDao {
 			board.setCreateDate(rs.getDate("board_create_date"));
 			board.setDeleted(rs.getString("board_deleted"));
 			
+			
 			Customer customer = new Customer();
+			customer.setCustId(rs.getString("cust_id"));
 			customer.setCustName(rs.getString("cust_name"));
 			
 			board.setCustomer(customer);
@@ -87,7 +76,8 @@ public class BoardDao {
 	public void insertBoard(Board board) {
 		DaoHelper.update("boardDao.insertBoard", board.getTitle(),
 												 board.getContent(),
-												 board.getCustomer().getCustId());
+												 board.getCustomer().getCustId(),
+												 board.getFilename());
 	}
 	
 	public int getTotalRows () {

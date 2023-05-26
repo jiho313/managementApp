@@ -13,8 +13,22 @@
 <jsp:include page="nav.jsp">
 	<jsp:param name="menu" value="홈"/>
 </jsp:include>
+<div class="row">
+	<div><p> test </p></div>
+	<div class="row"><p> test </p></div>
+</div>
 <div class="container mt-3">
 	<h1>쇼핑몰 관리자 시스템</h1>
+	
+	<div class="row">
+		<div class="col-2">1</div>
+		<div class="col-2">2</div>
+		<div class="col-2">3</div>
+		<div class="col-2">4</div>
+		<div class="col-2">5</div>
+		<div class="col-2">6</div>
+		<div class="col-2">7</div>
+	</div>
 </div>
 </body>
 </html>

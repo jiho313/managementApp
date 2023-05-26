@@ -9,7 +9,7 @@
 	String loginId = (String) session.getAttribute("loginId");
 
 	BoardDao boardDao = new BoardDao();
-	Board boardDetail = boardDao.getBoardDetailByNo(no);
+	
 	Board board = boardDao.getBoardByNo(no);
 	int commentCnt = boardDao.getCommentCntByBoardNo(no);
 	String err = request.getParameter("err");
@@ -77,26 +77,41 @@
 				<tbody>
 					<tr>
 						<th class="table-dark">제목</th>
-						<td><%=boardDetail.getTitle() %></td>
+						<td><%=board.getTitle() %></td>
 						<th class="table-dark">작성자</th>
-						<td><%=boardDetail.getCustomer().getCustName() %></td>
+						<td><%=board.getCustomer().getCustName() %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">조회수</th>
-						<td><%=boardDetail.getReadCnt() %></td>
+						<td><%=board.getReadCnt() %></td>
 						<th class="table-dark">댓글갯수</th>
 						<td><%=commentCnt %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">등록일</th>
-						<td><%=boardDetail.getCreateDate() %></td>
+						<td><%=board.getCreateDate() %></td>
 						<th class="table-dark">최종수정일자</th>
-						<td><%=boardDetail.getUpdateDate() %></td>
+						<td><%=board.getUpdateDate() %></td>
+					</tr>
+					<tr>
+						<th class="table-dark">첨부파일</th>
+						<td colspan="3">
+<%
+	if (board.getFilename() != null) {
+		// 첨부파일이 null이 아닐 때만 화면에 파일명이 표시된다.
+%>						
+						<%= board.getOriginalFilename() %>
+						<a href="download?no=<%=no %>" class="btn btn-outline-primary btn-xs ms-3">다운로드</a>
+						
+<%
+	}
+%>						
+						</td>
 					</tr>
 				</tbody>
 				</table>
 				<div class="mt-3">
-					<p><%=boardDetail.getContent()%></p>
+					<p><%=board.getContent()%></p>
 				</div>
 				
 				<div class="text-end">

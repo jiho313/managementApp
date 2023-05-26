@@ -13,11 +13,13 @@ public class Board {
 	private Date updateDate;
 	private Date createDate;
 	private Customer customer;
+	private String filename;
 	
 	public Board() {}
 	public Board(int no) {
 		this.no = no;
 	}
+	
 	public int getNo() {
 		return no;
 	}
@@ -71,6 +73,20 @@ public class Board {
 	}
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+	
+	public String getOriginalFilename() {
+		if (filename == null) {
+			return null;
+		}
+		return filename.substring(13);
+	}
+	
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 	
 }
